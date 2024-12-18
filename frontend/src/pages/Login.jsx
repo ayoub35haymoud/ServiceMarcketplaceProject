@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../features/authSlice';
 import { useNavigate } from 'react-router-dom';
@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const dispatch = useDispatch();
-//   const navigate = useNavigate();
-  const { loading, error } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const { loading, error , user} = useSelector((state) => state.auth);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,6 +18,15 @@ const Login = () => {
     e.preventDefault();
     dispatch(userLogin(formData));
   };
+
+  // navigate to the dashboard
+  useEffect(() => {
+    if (user) {
+      if (user.role === 'provider') navigate('/provider-dashboard');
+      else if (user.role === 'customer') navigate('/customer-dashboard');
+    }
+  }, [user, navigate]);
+  
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100">
       <div className="card shadow-lg p-4" style={{ width: '100%', maxWidth: '400px' }}>
