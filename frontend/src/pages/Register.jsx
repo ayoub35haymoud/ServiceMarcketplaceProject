@@ -28,7 +28,7 @@ const RegisterPage = () => {
             <div className="row justify-content-center">
                 <div className="col-md-6">
                     <div className="card shadow-sm">
-                        <div className="card-header text-center text-white" style={{backgroundColor :' #635bff'}}>
+                        <div className="card-header text-center text-white secondary-bg" >
                             <h4>Join Us</h4>
                             <p>Sign up to explore opportunities</p>
                         </div>
@@ -109,11 +109,11 @@ const RegisterPage = () => {
                                 </div>
                                 {/* Submit*/}
                                 <div className="d-grid">
-                                    <button type="submit" className="btn " style={{backgroundColor :' #635bff'}}>{loading?'Creating Account...' :'Create Account'}</button>
+                                    <button type="submit" className="btn btn-primary">{loading?'Creating Account...' :'Create Account'}</button>
                                 </div>
                             </form>
                         </div>
-                        <div className="card-footer text-center">
+                        <div className="card-footer text-center ">
                             <small>Already have an account? <Link to='/login'>Log in</Link></small>
                         </div>
                         <div>

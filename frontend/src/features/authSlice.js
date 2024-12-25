@@ -41,7 +41,6 @@ const authSlice = createSlice({
         builder
                .addCase(userRegister.pending , (state)=>{
                     state.loading = true;
-                    state.error = null;
                })
                .addCase(userRegister.fulfilled , (state , action )=>{
                     state.loading = false;
@@ -57,11 +56,11 @@ const authSlice = createSlice({
             //    login user
                .addCase(userLogin.pending , (state)=>{
                     state.loading = true;
-                    state.error = null;
                })
                .addCase(userLogin.fulfilled , (state ,  action)=>{
                     state.loading = false;
                     state.user = action.payload.user;
+                    localStorage.setItem('user' , JSON.stringify(action.payload.user));
                     state.token = action.payload.token;
                     localStorage.setItem('token' , action.payload.token);
                })
@@ -69,8 +68,6 @@ const authSlice = createSlice({
                     state.loading = false;
                     state.error = action.payload
                })
-
-
     }
 });
 export const {logout} = authSlice.actions;

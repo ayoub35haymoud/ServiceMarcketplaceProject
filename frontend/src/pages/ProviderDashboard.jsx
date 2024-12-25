@@ -1,16 +1,16 @@
-import { useSelector , useDispatch } from "react-redux";
-import React , {useEffect} from "react";
+import { useDispatch } from "react-redux";
+import {useEffect} from "react";
 import { fetchProviderDashboard } from "../features/dashboardSlice";
+import TopSectionProfile from "../components/TopSectionProfile";
 const ProviderDashboard = () => {
     const dispatch = useDispatch();
-    const {providerData}  = useSelector((state)=>state.dashboard)
+    
     useEffect(()=>{
         dispatch(fetchProviderDashboard());
     },[dispatch]);
     return (
       <div className="container mt-5">
-        <h1>Provider Dashboard</h1>
-        <p>{providerData}</p>
+            <TopSectionProfile/>
       </div>
     );
   };

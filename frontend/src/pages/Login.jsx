@@ -67,9 +67,9 @@ const Login = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="btn  w-100"
+            className="btn btn-primary  w-100"
             disabled={loading}
-            style={{backgroundColor :' #635bff'}}
+            // style={{backgroundColor :'#1E88E5'}}
           >{loading ? 'Logging in...' : 'Login'}</button>
         </form>
         {/* Register Link */}

@@ -1,0 +1,18 @@
+:root {
+    --primary-color: #1565C0;
+    --secondary-color:  #1E88E5;
+  }
+  
+  .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+  }
+  .secondary-bg{
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+  }
