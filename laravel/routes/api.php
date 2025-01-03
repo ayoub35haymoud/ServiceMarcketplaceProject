@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use App\Models\User;
 
 // authentication Routes
@@ -20,5 +21,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/customer-dashboard', [DashboardController::class, 'customerDashboard'])
         ->can('customer', User::class);
+
+    // profile routes
+    Route::get('/user/profile' , [ProfileController::class, 'show']) ;
+    Route::post('/user/profile' , [ProfileController::class, 'store']) ;
+    Route::put('/user/profile' , [ProfileController::class, 'update']) ;
 });
+
+
 

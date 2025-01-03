@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userRegister } from '../features/authSlice';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 const RegisterPage = () => {
     const [userData, setUserData] = useState({
         name: '',
@@ -10,7 +10,7 @@ const RegisterPage = () => {
         role: 'customer', // Default to customer
         phone: '',
     });
-
+    const navigate = useNavigate()
     const dispatch = useDispatch();
 
     const {error , loading } = useSelector((state)=>state.auth);
@@ -20,7 +20,8 @@ const RegisterPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(userRegister(userData)); // Dispatch registration action
+        dispatch(userRegister(userData));// Dispatch registration action
+        navigate('/login');
     };
 
     return (

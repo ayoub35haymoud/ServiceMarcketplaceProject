@@ -1,7 +1,9 @@
-import React, { useState , useEffect } from "react";
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchProfileData}  from '../features/profileSlice';
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProfileData, createProfileData, updateProfileData } from "../features/profileSlice";
+
 const EditProfile = () => {
+  const [preImage, setPreImage] = useState(null);
   const [formData, setFormData] = useState({
     bio: "",
     address: "",
@@ -9,8 +11,13 @@ const EditProfile = () => {
     experience: "",
     employees_count: "",
     business_hours: [
-      { day: "Monday", open: "09:00", close: "17:00" },
-      { day: "Tuesday", open: "09:00", close: "17:00" },
+      { day: "Monday", start: "08:00", end: "18:00" },
+      { day: "Tuesday", start: "08:00", end: "18:00" },
+      { day: "Wednesday", start: "08:00", end: "18:00" },
+      { day: "Thursday", start: "08:00", end: "18:00" },
+      { day: "Friday", start: "08:00", end: "18:00" },
+      { day: "Saturday", start: "08:00", end: "18:00" },
+      { day: "Sunday", start: "08:00", end: "18:00" },
     ],
     social_media_links: [
       { platform: "Facebook", url: "" },
@@ -19,12 +26,34 @@ const EditProfile = () => {
   });
 
   const dispatch = useDispatch();
-  {/* fetch profile data  */}
-  useEffect(()=>{
+  const { profileData } = useSelector((state) => state.profile);
+
+  // Fetch profile data only on first render
+  useEffect(() => {
     dispatch(fetchProfileData());
-  },[dispatch]);
-  const profileData = true;
-//   const { profileData } = useSelector((state)=> state.profile);
+  }, [dispatch]);
+
+  // Update formData with profileData only when profileData is available
+  useEffect(() => {
+    if (profileData) {
+      setFormData((prevData) => ({
+        ...prevData,
+        bio: profileData.bio || "",
+        address: profileData.address || "",
+        profile_picture: profileData.profile_picture || null,
+        experience: profileData.experience || "",
+        employees_count: profileData.employees_count || "",
+        business_hours:
+          profileData.business_hours && typeof profileData.business_hours === "string"
+            ? JSON.parse(profileData.business_hours)
+            : formData.business_hours,
+        social_media_links:
+          profileData.social_media_links && typeof profileData.social_media_links === "string"
+            ? JSON.parse(profileData.social_media_links)
+            : formData.social_media_links,
+      }));
+    }
+  }, [profileData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +61,12 @@ const EditProfile = () => {
   };
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, profile_picture: e.target.files[0] });
+    const file = e.target.files[0];
+    if (file) {
+      setFormData({ ...formData, profile_picture: file });
+      const previewUrl = URL.createObjectURL(file);
+      setPreImage(previewUrl);
+    }
   };
 
   const handleBusinessHoursChange = (index, field, value) => {
@@ -47,26 +81,43 @@ const EditProfile = () => {
     setFormData({ ...formData, social_media_links: updatedLinks });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const profileData = new FormData();
+    const profileDataForm = new FormData();
 
     Object.entries(formData).forEach(([key, value]) => {
-      profileData.append(key, Array.isArray(value) ? JSON.stringify(value) : value);
+      profileDataForm.append(key, Array.isArray(value) ? JSON.stringify(value) : value);
     });
 
-    console.log("Submitted data:", profileData);
+    if (profileData) {
+      profileDataForm.append("_method", "PUT");
+      console.log(formData);
+      await dispatch(updateProfileData(profileDataForm)); // Wait for the update to finish
+    } else {
+      await dispatch(createProfileData(profileDataForm)); // Wait for the creation to finish
+    }
+
+    // Refetch the profile data to update the form
+    dispatch(fetchProfileData());
   };
 
- return (
+  return (
     <div className="container mt-5 px-5">
-      <h2 className="mb-4">Edit Profile</h2>
+      <h2 className="mb-4 text-center">Edit Profile</h2>
       <form onSubmit={handleSubmit}>
         {/* Profile Picture with Live Preview */}
-        <div className="mb-4">
+        <div className="mb-4 text-center">
           <label htmlFor="profile_picture" className="form-label">
             Profile Picture
           </label>
+          {formData.profile_picture && (
+            <img
+              src={preImage || formData.profile_picture}
+              alt="Preview"
+              className="mt-3 rounded-circle mx-5 my-3"
+              style={{ maxWidth: "120px", border: "2px solid #007bff" }}
+            />
+          )}
           <input
             type="file"
             className="form-control"
@@ -74,14 +125,6 @@ const EditProfile = () => {
             name="profile_picture"
             onChange={handleFileChange}
           />
-          {formData.profile_picture && (
-            <img
-              src={URL.createObjectURL(formData.profile_picture)}
-              alt="Preview"
-              className="mt-3 rounded-circle"
-              style={{ maxWidth: "120px", border: "2px solid #007bff" }}
-            />
-          )}
         </div>
 
         {/* Bio */}
@@ -116,7 +159,7 @@ const EditProfile = () => {
           />
         </div>
 
-        {/* Experience and bumber of empolyes*/}
+        {/* Experience and Employees Count */}
         <div className="row mb-4">
           <div className="col-md-6">
             <label htmlFor="experience" className="form-label">
@@ -166,9 +209,9 @@ const EditProfile = () => {
                 <input
                   type="time"
                   className="form-control"
-                  value={hour.open}
+                  value={hour.start}
                   onChange={(e) =>
-                    handleBusinessHoursChange(index, "open", e.target.value)
+                    handleBusinessHoursChange(index, "start", e.target.value)
                   }
                 />
               </div>
@@ -176,9 +219,9 @@ const EditProfile = () => {
                 <input
                   type="time"
                   className="form-control"
-                  value={hour.close}
+                  value={hour.end}
                   onChange={(e) =>
-                    handleBusinessHoursChange(index, "close", e.target.value)
+                    handleBusinessHoursChange(index, "end", e.target.value)
                   }
                 />
               </div>
@@ -213,16 +256,11 @@ const EditProfile = () => {
             </div>
           ))}
         </div>
-        {/* hndling of button */}
-        { !profileData  ?
-            <button type="submit" className="btn btn-primary w-100 ">
-                Add information
-            </button>
-            :
-            <button type="submit" className="btn btn-primary w-100">
-                Save Changes
-            </button>
-        } 
+
+        {/* Submit Button */}
+        <button type="submit" className="btn btn-primary w-100">
+          {profileData ? "Save Changes" : "Create Profile"}
+        </button>
       </form>
     </div>
   );

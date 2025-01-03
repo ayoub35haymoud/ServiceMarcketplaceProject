@@ -5,7 +5,8 @@ import { getProfileData , putProfileData , postProfileData } from '../services/a
 export const fetchProfileData = createAsyncThunk('profile/fetchProfileData' , async (_ ,{rejectWithValue})=>{
     try{
         const response = await getProfileData(); 
-        return response ; 
+        // I added .profile because the data returned a profile key then auther profile key inside whith the value.
+        return response.profile ; 
     }catch(error){
         return rejectWithValue(error.response.data.message);
     }
@@ -26,6 +27,8 @@ export const createProfileData = createAsyncThunk('profile/createProfileData' , 
 export const updateProfileData = createAsyncThunk('profile/updateProfileData' , async(profileData , {rejectWithValue})=>{
     try{
         const response = await putProfileData(profileData);
+        console.log(profileData);
+        console.log(response);
         return response;
     }catch(error){
         return rejectWithValue(error.response.data.message);
@@ -41,7 +44,7 @@ const initialState = {
 }
 const profileSlice = createSlice({
     name : 'profile',
-    initialState ,
+    initialState,
     reducers : {},
     extraReducers : (builder)=>{
         builder 
@@ -50,7 +53,7 @@ const profileSlice = createSlice({
             })
             .addCase(fetchProfileData.fulfilled  , (state , action)=>{
                 state.loading = false;
-                state.profileData = action.payload;  
+                state.profileData = action.payload; 
             })
             .addCase(fetchProfileData.rejected , (state , action)=>{
                 state.loading = false;

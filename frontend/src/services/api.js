@@ -53,21 +53,64 @@ export const getProviderDashboard = async () => {
    
 
 //   post the profile data 
-export const  postProfileData = async(data)=>{
-    const response = await API.post('/user/profile',data);  
+export const postProfileData = async (data) => {
+    const token = localStorage.getItem('token');
+    const response = await API.post('/user/profile', data, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type' : 'multipart/form-data'
+        }
+    });
     return response.data;
 };
 // update the data ;
 export const  putProfileData = async(data)=>{
-    const response = await API.put('/user/profile',data);  
+    const token = localStorage.getItem('token'); 
+    const response = await API.post('/user/profile',data ,{
+        headers: { 
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+    }); 
+    console.log(response.data); 
     return response.data;
 };
 // fetch the profile data
 export const  getProfileData = async()=>{
-    const response = await API.get('/user/profile');  
+    const token = localStorage.getItem('token');
+    const response = await API.get('/user/profile' , {
+        headers: { Authorization: `Bearer ${token}`},
+    });  
     return response.data;
 };
-export default API; 
+{/* the call request related to the services */}
 
+// Create service
+export const createUserService = async (serviceData) => { 
+    const token = localStorage.getItem('token');
+    const response = await API.post('/user/services', serviceData, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+};
 
+//  Fetch services
+export const fetchUserService = async (id) => { 
+    const token = localStorage.getItem('token');
+    const response = await API.get(`/user/services/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+};
+
+//  Delete service
+export const deleteUserService = async (id) => { 
+    const token = localStorage.getItem('token');
+    const response = await API.delete(`/user/services/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+};
+
+export default API;
 

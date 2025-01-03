@@ -42,12 +42,9 @@ const authSlice = createSlice({
                .addCase(userRegister.pending , (state)=>{
                     state.loading = true;
                })
-               .addCase(userRegister.fulfilled , (state , action )=>{
+               .addCase(userRegister.fulfilled , (state)=>{
+                // why I didn't store the user and the token is because I navigate to the login to do that
                     state.loading = false;
-                    state.user = action.payload.user;
-                    state.token = action.payload.token;
-                    localStorage.setItem('token' , action.payload.token);
-
                })
                .addCase(userRegister.rejected , (state ,action)=>{
                     state.loading = false;
