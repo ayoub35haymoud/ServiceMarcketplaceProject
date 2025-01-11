@@ -60,12 +60,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Service::class);
     }  
-
-    /**
-     * Relationship: A user can provide multiple services.
-     */
-    public function providerServices()
-    {
-        return $this->hasMany(ProviderService::class);
-    }
 }

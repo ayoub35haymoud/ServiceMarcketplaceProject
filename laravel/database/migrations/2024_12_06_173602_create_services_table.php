@@ -11,12 +11,17 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id(); 
-            $table->unsignedBigInteger('category_id');          
-            $table->string('name')->unique(); 
-            $table->string('description')->nullable(); 
-            $table->decimal('average_cost', 10, 2)->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');    
+            $table->unsignedBigInteger('subcategories_id');       
+            $table->string('title')->unique(); 
+            $table->text('description')->nullable(); 
+            $table->string('zipcode', 20);
+            $table->decimal('price', 10, 2); 
+            // Paths to Project Images 
+            $table->json('featured_projects')->nullable();
+            $table->enum('status', ['active', 'inactive'])->default('active'); // Status of the service
             $table->timestamps();
-            $table->foreign('category_id')->references('id')->on('service_categories') ->onDelete('cascade'); 
+            $table->foreign('subcategories_id')->references('id')->on('sub_categories')->onDelete('cascade');
         });
     }
 

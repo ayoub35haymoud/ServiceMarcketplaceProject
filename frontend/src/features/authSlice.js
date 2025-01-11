@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit' ; 
-import {loginUser , register} from '../services/api';
+import {loginUser , register , fetchUserData} from '../services/api';
 
 export const userRegister = createAsyncThunk('auth/register', async(userData , {rejectWithValue})=>{
     try{
@@ -15,16 +15,23 @@ export const userLogin = createAsyncThunk('auth/loginUser', async(userData , {re
         const response = await loginUser(userData);
         return response; 
     }catch(error){
-        console.error(error.response.data);
-        
+        return rejectWithValue(error.response.data.message);
+    }
+});
+// fetch data of user and profile inside it 
+export const fetchUser = createAsyncThunk('auth/fetchUser', async(_ , {rejectWithValue})=>{
+    try{
+        const response = await fetchUserData();
+        return response; 
+    }catch(error){
         return rejectWithValue(error.response.data.message);
     }
 });
 
 const initialState ={
+    loading: false,
     user: null,
     token: null,
-    loading: false,
     error: null,
 }
 const authSlice = createSlice({
@@ -56,12 +63,22 @@ const authSlice = createSlice({
                })
                .addCase(userLogin.fulfilled , (state ,  action)=>{
                     state.loading = false;
-                    state.user = action.payload.user;
-                    localStorage.setItem('user' , JSON.stringify(action.payload.user));
                     state.token = action.payload.token;
                     localStorage.setItem('token' , action.payload.token);
                })
                .addCase(userLogin.rejected , (state, action)=>{
+                    state.loading = false;
+                    state.error = action.payload
+               })
+               //fetch user
+               .addCase(fetchUser.pending , (state)=>{
+                    state.loading = true;
+               })
+               .addCase(fetchUser.fulfilled , (state ,  action)=>{
+                    state.user = action.payload.userData;
+                    state.loading = false;
+               })
+               .addCase(fetchUser.rejected , (state, action)=>{
                     state.loading = false;
                     state.error = action.payload
                })

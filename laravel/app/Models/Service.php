@@ -29,10 +29,8 @@ class Service extends Model
         return $this->belongsTo(ServiceCategory::class);
     }
 
-    public function providerServices()
+    public function subCategory()
     {
-        return $this->hasMany(ProviderService::class);
+        return $this->belongsTo(SubCategory::class);
     }
-
-
 }

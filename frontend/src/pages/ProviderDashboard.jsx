@@ -6,14 +6,12 @@ import { fetchProviderDashboard } from "../features/dashboardSlice";
 import TopSectionProfile from "../components/Dashboard/TopSectionProfile";
 const ProviderDashboard = () => {
     const dispatch = useDispatch();
-    
     useEffect(()=>{
         dispatch(fetchProviderDashboard());
     },[dispatch]);
-
     return (
       <div className="container mt-5 ">
-            <TopSectionProfile/>
+            <TopSectionProfile />
             <nav className="dashboard-nav my-4  row"> 
                 <NavLink to="addService" className="nav-link col-1">Services</NavLink>
                 <NavLink to="about"   className=" nav-link col-1"> About  </NavLink>

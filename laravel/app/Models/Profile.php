@@ -41,10 +41,10 @@ class Profile extends Model
         //  $profile = Profile::find(1);
         // $services = $profile->providerServices; 
 
-    public function providerServices()
+    public function Services()
 {
     return $this->hasManyThrough(
-        ProviderService::class, // Related model
+        Service::class, // Related model
         User::class,             // Through model
         'user_id',               // Foreign key on the User table that links to Profile
         'user_id',               // Foreign key on the ProviderService table that links to User

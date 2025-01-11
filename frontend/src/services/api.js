@@ -83,13 +83,26 @@ export const  getProfileData = async()=>{
     });  
     return response.data;
 };
+
+// fetch profile data inside user data
+export const fetchUserData = async()=>{
+    const token = localStorage.getItem('token');
+    const response = await API.get('/user',{
+        headers : { Authorization: `Bearer ${token}`}
+    });
+    return response.data;
+}
+
 {/* the call request related to the services */}
 
 // Create service
 export const createUserService = async (serviceData) => { 
     const token = localStorage.getItem('token');
     const response = await API.post('/user/services', serviceData, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { 
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+        },
     });
     return response.data;
 };
@@ -97,7 +110,7 @@ export const createUserService = async (serviceData) => {
 //  Fetch services
 export const fetchUserService = async (id) => { 
     const token = localStorage.getItem('token');
-    const response = await API.get(`/user/services/${id}`, {
+    const response = await API.post(`/user/services/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
     });
     return response.data;
@@ -112,5 +125,18 @@ export const deleteUserService = async (id) => {
     return response.data;
 };
 
+// fetch service categories
+export const fetchServiceCategories= async()=>{
+        const response = await API.get('services/categories');
+        return response.data;  
+}
+
+// fetchSub_Categories
+export const fetchUserSub_Categories= async()=>{
+    const response = await API.get('services/sub_categories');
+    return response.data;  
+}
+
+{/* the call request related to the services */}
 export default API;
 

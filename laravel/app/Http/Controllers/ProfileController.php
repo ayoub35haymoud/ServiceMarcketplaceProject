@@ -73,7 +73,7 @@ class ProfileController extends Controller
            ],404);
         }
         return response()->json([
-            'profile' => $profile
+            'profile' => $profile    
         ]);
     }
 

@@ -27,7 +27,6 @@ const EditProfile = () => {
 
   const dispatch = useDispatch();
   const { profileData } = useSelector((state) => state.profile);
-
   // Fetch profile data only on first render
   useEffect(() => {
     dispatch(fetchProfileData());
@@ -115,7 +114,7 @@ const EditProfile = () => {
               src={preImage || formData.profile_picture}
               alt="Preview"
               className="mt-3 rounded-circle mx-5 my-3"
-              style={{ maxWidth: "120px", border: "2px solid #007bff" }}
+              style={{ width: "130px", height: "130px"  , border: "2px solid #007bff" }}
             />
           )}
           <input

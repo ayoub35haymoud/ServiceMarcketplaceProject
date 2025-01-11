@@ -1,3 +1,9 @@
+*{
+  font-family: "Mona Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  padding: 0%;
+  margin: 0%;
+  box-sizing: 0;
+}
 :root {
     --primary-color: #1565C0;
     --secondary-color:  #1E88E5;
@@ -56,7 +62,7 @@
 
 /* Modal Content */
 .modal-dialog {
-  max-width: 500px;
+  max-width: 80%;
   width: 100%;
   background-color: #fff;
   border-radius: 8px;
@@ -75,7 +81,41 @@
   }
 } 
 
+.about-section {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
 
+.about-section h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.about-section h4 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.about-section p {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.about-section .btn-outline-secondary {
+  font-size: 14px;
+  padding: 5px 15px;
+  border-radius: 4px;
+}
+
+.about-section .row {
+  margin-bottom: 10px;
+}
 
 
 

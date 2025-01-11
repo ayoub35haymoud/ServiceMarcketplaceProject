@@ -7,7 +7,7 @@ const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error , user} = useSelector((state) => state.auth);
+  const { loading, error ,token  } = useSelector((state) => state.auth);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,12 +21,10 @@ const Login = () => {
 
   // navigate to the dashboard
   useEffect(() => {
-    if (user) {
-      if (user.role === 'provider') navigate('/provider-dashboard');
-      else if (user.role === 'customer') navigate('/customer-dashboard');
+    if (token){
+      navigate('/');
     }
-  }, [user, navigate]);
-  
+  },[token , navigate]);
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100">
       <div className="card shadow-lg p-4" style={{ width: '100%', maxWidth: '400px' }}>

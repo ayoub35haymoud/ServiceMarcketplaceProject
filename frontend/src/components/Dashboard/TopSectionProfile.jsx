@@ -1,40 +1,37 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {fetchProfileData} from '../../features/profileSlice';
+import React from 'react';
+import { useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import defaultAvatar from '../../../public/image/profileAvatar.png'
+import defaultAvatar from '../../../public/image/profileAvatar.png';
+import SkeletonProfile from '../Skeletons/SkeletonProfile';
 const TopSectionProfile = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
- 
-  const { profileData , loading} = useSelector((state) => state.profile);
-  
-  useEffect(() => {
-    dispatch(fetchProfileData());
-  }, [dispatch]);
-   
-  if (loading) return <p>Loading...</p>;
-  const user = JSON.parse(localStorage.getItem('user'));
+  const { user } = useSelector((state) => state.auth);
+     const profile = user?.profile;
+ // I use user becaue loadin it not working and the value user was null so components dont work 
+ if(!user){
+  return <SkeletonProfile/>
+}
   return (
     <div className="container mt-5">
       <div className="card shadow-sm p-4">
         <div className="row align-items-center">
           <div className="col-md-6 text-center">
           <img
-              src={profileData && profileData.profile_picture ? profileData.profile_picture:defaultAvatar}
+              src={profile && profile.profile_picture ? profile.profile_picture:defaultAvatar}
               alt={`${user?.name || "User"}'s profile`}
-              className="img-fluid rounded-circle mb-3"
-              style={{ maxWidth: '170px', border: '3px solid rgb(0, 0, 0)' }}
+              className="rounded-circle me-3"
+              style={{ width: "140px", height: "140px", objectFit: "cover" , border : "2px solid #007bff"}}
            />
           </div>
           <div className="col-md-6">
             <h4 className="mb-3">Welcom {user.name}</h4>
-            <button
+            {/* diplay the buton just in the first time */}
+            {!profile && <button
               className="btn btn-primary btn-lg "
               onClick={() => navigate('/edite-profile')}
             >
               Edit Profile
-            </button>
+            </button>}
           </div>
         </div>
       </div>
