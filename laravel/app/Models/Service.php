@@ -28,9 +28,9 @@ class Service extends Model
     {
         return $this->belongsTo(ServiceCategory::class);
     }
-
+    // some times is better to difine the foreing key if there the name is complex
     public function subCategory()
     {
-        return $this->belongsTo(SubCategory::class);
+        return $this->belongsTo(SubCategory::class, 'subcategories_id');
     }
 }

@@ -13,7 +13,7 @@ export const createService = createAsyncThunk('services/createService' ,async (s
 export const fetchService = createAsyncThunk('services/fetchUserService' ,async (_ , {rejectWithValue})=>{
     try{
         const response = await fetchUserService();
-        return response ;
+        return response.services ;
     }catch(error){
         return rejectWithValue(error.response.message);
     }
@@ -27,7 +27,7 @@ export const fetchCategories = createAsyncThunk('services/fetchCategories' ,asyn
         return rejectWithValue(error.response.message);
     }
 });
-//fetch fetchCategories
+//fetch fetchsubCategories
 export const fetchSub_Categories = createAsyncThunk('services/fetchSub_Categories' ,async (_ , {rejectWithValue})=>{
     try{
         const response = await fetchUserSub_Categories();

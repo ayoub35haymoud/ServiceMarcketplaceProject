@@ -56,7 +56,7 @@ class User extends Authenticatable
     }
 
     // A user (provider) has many services
-    public function services()
+    public function service()
     {
         return $this->hasMany(Service::class);
     }  

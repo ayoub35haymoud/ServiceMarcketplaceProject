@@ -1,7 +1,7 @@
 import React from 'react'
-import SkeletonAvatar from './CustomeSkeletons.jsx/SkeletonAvatar';
-import SkeletonText from './CustomeSkeletons.jsx/SkeletonText';
-import SkeletonButton from './CustomeSkeletons.jsx/SkeletonButton';
+import SkeletonAvatar from './CustomeSkeletons/SkeletonAvatar';
+import SkeletonText from './CustomeSkeletons/SkeletonText';
+import SkeletonButton from './CustomeSkeletons/SkeletonButton';
 
 const SkeletonProfile=()=>{
   return (

@@ -108,9 +108,9 @@ export const createUserService = async (serviceData) => {
 };
 
 //  Fetch services
-export const fetchUserService = async (id) => { 
+export const fetchUserService = async () => { 
     const token = localStorage.getItem('token');
-    const response = await API.post(`/user/services/${id}`, {
+    const response = await API.get('/user/services', {
         headers: { Authorization: `Bearer ${token}` }
     });
     return response.data;
@@ -138,5 +138,14 @@ export const fetchUserSub_Categories= async()=>{
 }
 
 {/* the call request related to the services */}
+
+{/* start the call request related to the serch */}
+
+// fetch the suggestion 
+export const suggestions = async(query)=>{
+    const response = await API.get('search/suggestions' , {params : {query}}) ;
+    return response.data;
+}
+{/* the end the call request related to the serch */}
 export default API;
 

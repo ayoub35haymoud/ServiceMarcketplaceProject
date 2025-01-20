@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../features/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const dispatch = useDispatch();
@@ -26,6 +27,8 @@ const Login = () => {
     }
   },[token , navigate]);
   return (
+    <>
+    <Navbar/>
     <div className="container d-flex justify-content-center align-items-center min-vh-100">
       <div className="card shadow-lg p-4" style={{ width: '100%', maxWidth: '400px' }}>
         <h2 className="text-center mb-4">Login</h2>
@@ -64,11 +67,12 @@ const Login = () => {
 
           {/* Submit Button */}
           <button
-            type="submit"
-            className="btn btn-primary  w-100"
-            disabled={loading}
-            // style={{backgroundColor :'#1E88E5'}}
-          >{loading ? 'Logging in...' : 'Login'}</button>
+              type="submit"
+              className="btn btn-primary  w-100"
+              disabled={loading}
+              // style={{backgroundColor :'#1E88E5'}}
+            >{loading ? 'Logging in...' : 'Login'}
+          </button>
         </form>
         {/* Register Link */}
         <div className="text-center mt-3">
@@ -79,6 +83,7 @@ const Login = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

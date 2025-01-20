@@ -20,18 +20,19 @@ const TopSectionProfile = () => {
               src={profile && profile.profile_picture ? profile.profile_picture:defaultAvatar}
               alt={`${user?.name || "User"}'s profile`}
               className="rounded-circle me-3"
-              style={{ width: "140px", height: "140px", objectFit: "cover" , border : "2px solid #007bff"}}
+              style={{ width: "140px", height: "140px", objectFit: "cover" , boxShadow : '0 0 5px rgba(0,0,0,0.5)' }}
            />
           </div>
           <div className="col-md-6">
-            <h4 className="mb-3">Welcom {user.name}</h4>
+            <h4 className="mb-3">Welcom back {user.name}</h4>
             {/* diplay the buton just in the first time */}
             {!profile && <button
-              className="btn btn-primary btn-lg "
+              className="btn border border-2  border-primary btn-lg "
               onClick={() => navigate('/edite-profile')}
             >
-              Edit Profile
-            </button>}
+              create profile
+            </button>
+            }
           </div>
         </div>
       </div>

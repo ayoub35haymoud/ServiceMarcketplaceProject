@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userRegister } from '../features/authSlice';
 import { Link , useNavigate} from 'react-router-dom';
+import Navbar from '../components/Navbar';
 const RegisterPage = () => {
     const [userData, setUserData] = useState({
         name: '',
@@ -25,6 +26,8 @@ const RegisterPage = () => {
     };
 
     return (
+        <>
+        <Navbar/>
         <div className="container mt-5 ">
             <div className="row justify-content-center">
                 <div className="col-md-6">
@@ -124,6 +127,7 @@ const RegisterPage = () => {
                 </div>
             </div>
         </div>
+    </>
     );
 };
 

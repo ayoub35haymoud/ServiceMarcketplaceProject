@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Service;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
@@ -58,9 +59,30 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function showUserServices()
     {
-        //
+        $user = Auth::user();
+
+        $services = $user->service;
+        foreach ($services as $service) {
+            if ($service->featured_projects) {
+                // Decode the JSON field to get an array of picture paths
+                $pictures = json_decode($service->featured_projects, true);
+                
+                // Map each picture path to its full URL
+                $picturesWithUrls = array_map(function ($picture) {
+                    return asset('storage/' . $picture);
+                }, $pictures);
+    
+                // Update the featured_projects field with the full URLs
+                $service->featured_projects = $picturesWithUrls;
+            }
+        }
+        
+
+        return response()->json([
+                'services' => $services
+            ],200);
     }
 
     /**

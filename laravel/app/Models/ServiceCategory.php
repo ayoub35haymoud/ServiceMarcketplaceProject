@@ -16,7 +16,7 @@ class ServiceCategory extends Model
     ];
 
      // A category has many services
-    public function services()
+    public function service()
     {
         return $this->hasMany(Service::class);
     }

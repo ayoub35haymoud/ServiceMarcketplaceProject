@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceCategoriesController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SearchController;
 use App\Models\User;
 
 {/*authentication Routes*/}
@@ -40,7 +41,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('services/categories' ,[ServiceCategoriesController::class , 'showCategories']);
 Route::get('services/sub_categories' ,[ServiceCategoriesController::class , 'showSub_categories']);
 
+// routes related to services 
+Route::middleware(['auth:sanctum'])->group(function () {
+    // fetch provider services
+    Route::get('/user/services' , [ServiceController::class , 'showUserServices'] );
+});
 
 
-
-
+ {/*search Routes*/} 
+ Route::get('search/suggestions', [SearchController::class , 'showSuggestions']);

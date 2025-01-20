@@ -41,7 +41,7 @@ class Profile extends Model
         //  $profile = Profile::find(1);
         // $services = $profile->providerServices; 
 
-    public function Services()
+    public function Service()
 {
     return $this->hasManyThrough(
         Service::class, // Related model
