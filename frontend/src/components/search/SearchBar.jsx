@@ -1,24 +1,32 @@
 import React, { useState , useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {fetchSuggestions} from '../features/searchSlice';
-import { suggestions } from '../services/api';
+import {useNavigate} from 'react-router-dom'
+import {fetchSuggestions} from '../../features/searchSlice';
 export default function SearchBar() {
-  const [service, setService] = useState('');
-  const [zipCode, setZipCode] = useState('');
+  const [service , setService] = useState('');
+  const [zipcode , setZipcode]= useState('');
   const [newSuggestions, setnewSuggestions] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {Suggestions} = useSelector((state)=>state.search);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    navigate(`/search?service=${service}&zipcode=${zipcode}`)  
+  };
+
+  const handleClick = (itemChose) => {
+    setService(itemChose);
+    if(itemChose && zipcode){
+      navigate(`/search?service=${itemChose}&zipcode=${zipcode}`)
+    }
   };
 
   const handleChange=(e)=>{
-    setService(e.target.value);
+    setService(e.target.value);  
   } 
 
   useEffect(() => {
-    console.log(service);
     if (service.length >= 5) {
       dispatch(fetchSuggestions(service)); // Trigger suggestions fetch
 
@@ -32,7 +40,6 @@ export default function SearchBar() {
         Suggestions.services.forEach(element => {
           filterSuggestions.push(element.title);
         });
-        console.log(filterSuggestions);
         setnewSuggestions(filterSuggestions)
       }
     }
@@ -51,6 +58,7 @@ export default function SearchBar() {
             placeholder="De quel service avez-vous besoin ?"
             value={service}
             onChange={handleChange}
+            required="true"
           />
         </div>
         <div className="d-flex align-items-center border-end px-3 py-2">
@@ -60,8 +68,9 @@ export default function SearchBar() {
             className="form-control border-0 bg-transparent shadow-none"
             placeholder="Code postal"
             style={{ width: '120px' }}
-            value={zipCode}
-            onChange={(e) => setZipCode(e.target.value)}
+            value={zipcode}
+            onChange={(e)=>{setZipcode(e.target.value)}}
+            required="true"
           />
         </div>
         <button 
@@ -77,8 +86,8 @@ export default function SearchBar() {
         <div className='suggestion-dropdown p-4'>
             <ul>
               {
-                newSuggestions.map((service , index)=>{
-                    return<li key={index}><i className="fas fa-search  me-5"></i>{service}</li>
+                newSuggestions.map((iteme , index)=>{
+                    return<li key={index} onClick={()=>{handleClick(iteme)}}><i className="fas fa-search  me-5"></i>{iteme}</li>
                 })
               }
             </ul>

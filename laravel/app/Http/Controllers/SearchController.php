@@ -30,6 +30,29 @@ class SearchController extends Controller
             'services' => $services
         ]);
     }
+    
+    public function searchServices(Request $request)
+{
+    // Extract query and zipcode from the request
+    $query = $request->input('query');
+    $zipcode = $request->input('zipcode');
+
+    // Fetch services that match both the query and the zip code
+    $services = Service::with(['user.profile', 'subCategory'])
+        ->where(function ($q) use ($query) {
+            $q->where('title', 'LIKE', "%{$query}%")
+            ->orWhere('description', 'LIKE', "%{$query}%");
+        })
+        ->where('zipcode', $zipcode) // Ensure the zip code matches 
+        ->paginate(3);
+    foreach ($services as $service) {
+        if ($service->user && $service->user->profile && $service->user->profile->profile_picture) {
+            $service->user->profile->profile_picture = asset('storage/' . $service->user->profile->profile_picture);
+        }
+    }
+    // Return the results as JSON
+    return response()->json($services);
+}
 
 
 

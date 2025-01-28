@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { logout } from '../features/authSlice';
 import Avatar from '../../public/image/profileAvatar.png';
-import SearchBar from '../components/SearchBar';
+import SearchBar from '../components/search/SearchBar';
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

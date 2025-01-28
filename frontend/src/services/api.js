@@ -139,11 +139,16 @@ export const fetchUserSub_Categories= async()=>{
 
 {/* the call request related to the services */}
 
-{/* start the call request related to the serch */}
+{/* start the call request related to the search */}
 
 // fetch the suggestion 
 export const suggestions = async(query)=>{
     const response = await API.get('search/suggestions' , {params : {query}}) ;
+    return response.data;
+}
+// fetch the result of search
+export const results =async({query, zipcode, page: currentPage })=>{
+    const response = await API.get(`service/search?page=${currentPage}` ,{params: { query, zipcode }})
     return response.data;
 }
 {/* the end the call request related to the serch */}

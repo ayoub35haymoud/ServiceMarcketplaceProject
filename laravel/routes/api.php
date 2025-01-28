@@ -50,3 +50,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
  {/*search Routes*/} 
  Route::get('search/suggestions', [SearchController::class , 'showSuggestions']);
+ Route::get('service/search' , [SearchController::class , 'searchServices']);

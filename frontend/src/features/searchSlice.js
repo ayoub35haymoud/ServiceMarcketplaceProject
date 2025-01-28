@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {suggestions} from '../services/api'
+import {results, suggestions} from '../services/api'
 
 export const fetchSuggestions = createAsyncThunk('serch/fetchSuggestion' , async (query , {rejectWithValue})=>{
     try{
@@ -10,9 +10,18 @@ export const fetchSuggestions = createAsyncThunk('serch/fetchSuggestion' , async
     }
 });
 
+export const fetchResults = createAsyncThunk('search/fetchResults' , async({query, zipcode, page: currentPage }, {rejectWithValue})=>{
+    try{
+        const response = await results({query, zipcode, page: currentPage });
+        return response ;
+    }catch(error){
+        return rejectWithValue(error.response.data.message);
+    }
+});
 const initialState = {
     loading: false,
     Suggestions :[],
+    searchResults : [],
     error : null
 } 
 const searchSlice = createSlice({
@@ -27,6 +36,18 @@ const searchSlice = createSlice({
               .addCase(fetchSuggestions.fulfilled , (state , action)=>{
                 state.loading = false;
                 state.Suggestions = action.payload;
+              })
+              // for resultof search
+              .addCase(fetchResults.pending , (state)=>{
+                state.loading = true;
+              })
+              .addCase(fetchResults.fulfilled , (state , action)=>{
+                state.loading = false;
+                state.searchResults = action.payload;
+              })
+              .addCase(fetchResults.rejected , (state , action)=>{
+                state.loading = false;
+                state.error = action.payload;
               })
 
     }

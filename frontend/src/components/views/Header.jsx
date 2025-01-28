@@ -3,7 +3,7 @@ import '../../styles/Header.css';
 import Cleaning from '../../../public/image/cleaner.jpeg';
 import Handyman from '../../../public/image/handyman.jpeg';
 import Technician from '../../../public/image/technician.jpeg';
-import SearchBar from '../../components/SearchBar';
+import SearchBar from '../../components/search/SearchBar';
 
 const Header = () => {
   const [currentSlide, setCurrentSlide] = useState(0);

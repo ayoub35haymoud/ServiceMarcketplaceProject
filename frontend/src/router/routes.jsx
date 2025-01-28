@@ -11,13 +11,17 @@ const EditProfile = React.lazy(() => import('../pages/EditProfile'));
 const MainLayout = React.lazy(() => import('../layouts/MainLayout'));
 const HomePage = React.lazy(() => import('../pages/HomePage'));
 const NotFound = React.lazy(() => import('../pages/NotFound'));
-
+const Search = React.lazy(() => import('../pages/Search'));
 // Route configuration
 const routes = [
   {
     path: '/',
     element: <MainLayout />,
     children: [
+      {
+        path: '/search',
+        element: <Search/>
+      },
       {
         path: '/',
         element: <HomePage />,
@@ -52,6 +56,7 @@ const routes = [
         element: <NotFound />,
       },
     ],
+   
   },
   // the resen why I do this outside the mainlayout because if the are inside .
   // the mainlayout reject the fetchUserfirst and when you logging the user state is empty .
