@@ -36,7 +36,7 @@ class SearchController extends Controller
     // Extract query and zipcode from the request
     $query = $request->input('query');
     $zipcode = $request->input('zipcode');
-
+    $minPrice = $request->input('minPrice');
     // Fetch services that match both the query and the zip code
     $services = Service::with(['user.profile', 'subCategory'])
         ->where(function ($q) use ($query) {
@@ -44,7 +44,10 @@ class SearchController extends Controller
             ->orWhere('description', 'LIKE', "%{$query}%");
         })
         ->where('zipcode', $zipcode) // Ensure the zip code matches 
-        ->paginate(3);
+        ->paginate(5);
+    if ($minPrice) {
+        $services->where('price', '>=', $minPrice);
+    }
     foreach ($services as $service) {
         if ($service->user && $service->user->profile && $service->user->profile->profile_picture) {
             $service->user->profile->profile_picture = asset('storage/' . $service->user->profile->profile_picture);
@@ -53,6 +56,7 @@ class SearchController extends Controller
     // Return the results as JSON
     return response()->json($services);
 }
+
 
 
 

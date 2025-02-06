@@ -13,7 +13,8 @@ export default function Search() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const searchParams = new URLSearchParams(location.search);
-  const query = searchParams.get("query");
+  const query = searchParams.get("service");
+  console.log(query);
   const zipcode = searchParams.get("zipcode");
 
   useEffect(() => {
@@ -33,22 +34,17 @@ export default function Search() {
   };
   console.log(searchResults);
   return (
-    <div className="con">
-      {loading && (
-        <>
-          <div>
-            <SidebarSearch/>
-          </div>
-          <div>
+    <div className={!loading ? "contFather" : ""}>
+      {loading && !searchResults.data &&(
+          <div className="skeletonSearch ">
             <p>Chargement des résultats...</p>
             <SkeletonProfile />
             <SkeletonProfile />
             <SkeletonProfile />
           </div>
-        </>
       )}
       {error && <p className="text-red-500">Une erreur s est produite: {error}</p>}
-      <div>
+      <div className="sidebar-filter">
         {/* css exist in file serch.css */}
         { searchResults.data && <SidebarSearch/>}
       </div>

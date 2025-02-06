@@ -10,9 +10,9 @@ export const fetchSuggestions = createAsyncThunk('serch/fetchSuggestion' , async
     }
 });
 
-export const fetchResults = createAsyncThunk('search/fetchResults' , async({query, zipcode, page: currentPage }, {rejectWithValue})=>{
+export const fetchResults = createAsyncThunk('search/fetchResults' , async({query, zipcode, page: currentPage,}, {rejectWithValue})=>{
     try{
-        const response = await results({query, zipcode, page: currentPage });
+        const response = await results({query, zipcode, page: currentPage , minPrice : 12});
         return response ;
     }catch(error){
         return rejectWithValue(error.response.data.message);

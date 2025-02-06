@@ -148,7 +148,8 @@ export const suggestions = async(query)=>{
 }
 // fetch the result of search
 export const results =async({query, zipcode, page: currentPage })=>{
-    const response = await API.get(`service/search?page=${currentPage}` ,{params: { query, zipcode }})
+    console.log({query, zipcode})
+    const response = await API.get(`service/search?page=${currentPage}` ,{params: { query, zipcode , minPrice : 12}})
     return response.data;
 }
 {/* the end the call request related to the serch */}

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { logout } from '../features/authSlice';
 import Avatar from '../../public/image/profileAvatar.png';
+import '../styles/Navbar.css';
 import SearchBar from '../components/search/SearchBar';
 
 const Navbar = () => {
@@ -37,7 +38,7 @@ const Navbar = () => {
     };
   }, []);
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4">
+    <nav className="navbar navbar-expand-lg  navbar-light bg-white shadow-sm px-4">
       <div className="container">
         {/* Logo */}
         <Link className="navbar-brand d-flex align-items-center" to="/">
