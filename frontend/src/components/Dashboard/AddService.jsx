@@ -1,6 +1,6 @@
 import React, { useState , useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createService ,fetchCategories , fetchService, fetchSub_Categories } from "../../features/servicesSlice";
+import { createService ,fetchCategories , fetchServices, fetchSub_Categories } from "../../features/servicesSlice";
 import '../../styles/AddService.css';
 import AddServiceForm from "./AddServiceForm";
 
@@ -26,7 +26,7 @@ const AddService = () => {
   useEffect(()=>{
     dispatch(fetchCategories());
     dispatch(fetchSub_Categories());
-    dispatch(fetchService());
+    dispatch(fetchServices());
   },[dispatch])
 
   const { loading , servicesCategories , sub_categories , services } = useSelector((state) => state.services)

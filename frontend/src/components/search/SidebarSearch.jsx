@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-
+import {useDispatch} from "react-redux";
+import { useLocation } from "react-router-dom";
+import {fetchResults} from "../../features/searchSlice"
 export default function SidebarSearch() {
   const [filterData, setFilterData] = useState({
     price: { minPrice: 0, maxPrice: 0 },
     gender: "",
   });
-  console.log(filterData);
+  const dispatch = useDispatch();
   // Handle price changes
   const handlePrice = (e) => {
     const { name, value } = e.target;
@@ -26,11 +28,26 @@ export default function SidebarSearch() {
     }));
   };
 
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const query = searchParams.get("service");
+  const zipcode = searchParams.get("zipcode");
   // Handle form submission
   const handleSubmit = () => {
-    console.log("Filters applied:", filterData);
-    // Dispatch filter data to Redux or API request
+      const {gender , price } = filterData 
+      if(gender || price.minPrice > 0 || price.maxPrice >0){
+        dispatch(fetchResults({filterData , query , zipcode}))
+      }else {
+        alert("entrer le filter formes");
+      }
   };
+
+  const handleResetFilters =()=>{
+    setFilterData({ 
+      price: { minPrice: 0, maxPrice: 0 },
+      gender: "",
+    })
+  }
 
   return (
     <div>
@@ -79,9 +96,10 @@ export default function SidebarSearch() {
       </div>
 
       {/* Submit Button */}
-      <button className="mt-4 btn btn-primary mx-4" onClick={handleSubmit}>
+      <button className="mt-4 btn btn-primary " onClick={handleSubmit}>
         Filtrez vos choix
       </button>
+      <button className="mt-4 btn btn-primary px-4" onClick={handleResetFilters}>Reset Filters</button>
     </div>
   );
 }

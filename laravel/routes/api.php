@@ -32,20 +32,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/user/profile' , [ProfileController::class, 'update']) ;
 });
 
- {/*userservices Routes*/} 
- Route::middleware(['auth:sanctum'])->group(function () {
-    // routes of services
-    Route::post('user/services' ,[ServiceController::class , 'store']);
-});
-//  fetch categories and subCategorie
-Route::get('services/categories' ,[ServiceCategoriesController::class , 'showCategories']);
-Route::get('services/sub_categories' ,[ServiceCategoriesController::class , 'showSub_categories']);
+{/*userservices Routes*/} 
+    Route::middleware(['auth:sanctum'])->group(function () {
+        // routes of services
+        Route::post('user/services' ,[ServiceController::class , 'store']);
+        Route::get('booking/{id}' , [ServiceController::class ,'show']);
+    });
+    //  fetch categories and subCategorie
+    Route::get('services/categories' ,[ServiceCategoriesController::class , 'showCategories']);
+    Route::get('services/sub_categories' ,[ServiceCategoriesController::class , 'showSub_categories']);
 
-// routes related to services 
-Route::middleware(['auth:sanctum'])->group(function () {
-    // fetch provider services
-    Route::get('/user/services' , [ServiceController::class , 'showUserServices'] );
-});
+    // routes related to services 
+    Route::middleware(['auth:sanctum'])->group(function () {
+        // fetch provider services
+        Route::get('/user/services' , [ServiceController::class , 'showUserServices'] );
+    });
 
 
  {/*search Routes*/} 

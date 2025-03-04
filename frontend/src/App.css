@@ -150,46 +150,6 @@
 
 
 
-/* serch bar  */
-.search-bar-container{
-  position: absolute;
-  border: none;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  cursor: pointer;
-  z-index: 10;
-  transition: all 0.3s ease;
-  margin-top: 20px;
-}
-
-.suggestion-dropdown{
-  width:43% ;
-  background-color: rgba(255, 255, 255, 0.2); 
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 20px;
-  max-height: 300px;
-  overflow-y: auto;
-  scrollbar-width:none;
-}
-
-
-.suggestion-dropdown li {
-  list-style: none;
-  padding: 8px 12px;
-  cursor: pointer;
-  color: white;
-}
-
-.suggestion-dropdown li:hover {
-  background: #f0f0f0;
-  border-radius: 12px;
-  color:black;
-}
-
-
 
 
 

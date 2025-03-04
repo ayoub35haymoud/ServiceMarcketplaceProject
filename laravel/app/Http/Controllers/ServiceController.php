@@ -108,4 +108,28 @@ class ServiceController extends Controller
     {
         //
     }
+
+    public function show(Request $request , $id)
+    {
+        $service = Service::with('user.profile')->find($id);
+
+            if($service->featured_projects){
+                // Decode the JSON field to get an array of picture paths
+                $pictures = json_decode($service->featured_projects, true);
+                
+                // Map each picture path to its full URL
+                $picturesWithUrls = array_map(function ($picture) {
+                    return asset('storage/' . $picture);
+                }, $pictures);
+    
+                // Update the featured_projects field with the full URLs
+                $service->featured_projects = $picturesWithUrls;
+            };
+            // for the profile picture
+            if ($service->user && $service->user->profile && $service->user->profile->profile_picture) {
+                $service->user->profile->profile_picture = asset('storage/' . $service->user->profile->profile_picture);
+            }
+            return response()->json($service);
+
+    }
 }

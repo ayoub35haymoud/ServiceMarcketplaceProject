@@ -10,9 +10,22 @@ export const fetchSuggestions = createAsyncThunk('serch/fetchSuggestion' , async
     }
 });
 
-export const fetchResults = createAsyncThunk('search/fetchResults' , async({query, zipcode, page: currentPage,}, {rejectWithValue})=>{
+export const fetchResults = createAsyncThunk('search/fetchResults' , async({query, zipcode   , filterData ={}, page: currentPage}, {rejectWithValue})=>{
     try{
-        const response = await results({query, zipcode, page: currentPage , minPrice : 12});
+        //this because in the first time we fetch without 
+        // filter so we dont sended parametre named filterData that make a problem  
+        const minPrice = parseFloat(filterData?.price?.minPrice)|| 0;  
+        const maxPrice = parseFloat(filterData?.price?.maxPrice) || 0;
+        console.log(maxPrice);
+        const response = await results(
+          {
+            query, 
+            zipcode , 
+            minPrice,  
+            maxPrice,
+            page: currentPage 
+
+          });
         return response ;
     }catch(error){
         return rejectWithValue(error.response.data.message);

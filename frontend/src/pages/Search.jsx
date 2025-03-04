@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation , useNavigate} from "react-router-dom";
 import { fetchResults } from "../features/searchSlice";
 import SkeletonProfile from "../components/Skeletons/SkeletonProfile";
 import '../styles/Search.css'
@@ -8,13 +8,12 @@ import SidebarSearch from "../components/search/SidebarSearch";
 export default function Search() {
   const dispatch = useDispatch();
   const location = useLocation();
-
+  const navigate = useNavigate();
   const { loading, error, searchResults } = useSelector((state) => state.search);
   const [currentPage, setCurrentPage] = useState(1);
 
   const searchParams = new URLSearchParams(location.search);
   const query = searchParams.get("service");
-  console.log(query);
   const zipcode = searchParams.get("zipcode");
 
   useEffect(() => {
@@ -32,6 +31,11 @@ export default function Search() {
       setCurrentPage((prevPage) => prevPage - 1);
     }
   };
+  //handle the navigation for the next page 
+  const handleNaviBookPage = (id) => {
+    navigate(`/booking/${id}` , {replace : true});
+  };
+
   console.log(searchResults);
   return (
     <div className={!loading ? "contFather" : ""}>
@@ -52,7 +56,7 @@ export default function Search() {
         {!loading &&
           searchResults.data &&
           searchResults.data.map((result) => (
-            <div className="card-container" key={result.id}>
+            <div className="card-container" key={result.id} >
               <div className="d-flex align-items-start gap-4">
                   {/* Logo Section */}
                   <div className="company-logo d-flex align-items-center justify-content-center">
@@ -87,7 +91,7 @@ export default function Search() {
                         <div className="h4 mb-0">{result.price}</div>
                         <div className="starting-price">Starting price</div>
                       </div>
-                      <button className="view-profile-btn">View Profile</button>
+                      <button className="view-profile-btn" onClick={()=>{handleNaviBookPage(result.id)}}>View Profile</button>
                     </div>
 
               </div>

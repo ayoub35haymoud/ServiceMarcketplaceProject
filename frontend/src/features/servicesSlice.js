@@ -1,5 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {createUserService , fetchUserService , deleteUserService , fetchServiceCategories , fetchUserSub_Categories} from '../services/api'
+import {
+        createUserService ,
+        fetchUserService , 
+        deleteUserService , 
+        fetchServiceCategories , 
+        fetchUserSub_Categories ,
+        fetchServiceData
+    }  from '../services/api' ;
+   
+
 //Create service
 export const createService = createAsyncThunk('services/createService' ,async (serviceData , {rejectWithValue})=>{
     try{
@@ -9,8 +18,9 @@ export const createService = createAsyncThunk('services/createService' ,async (s
         return rejectWithValue(error.response.message);
     }
 });
+
 //fetch services
-export const fetchService = createAsyncThunk('services/fetchUserService' ,async (_ , {rejectWithValue})=>{
+export const fetchServices = createAsyncThunk('services/fetchUserService' ,async (_ , {rejectWithValue})=>{
     try{
         const response = await fetchUserService();
         return response.services ;
@@ -18,6 +28,7 @@ export const fetchService = createAsyncThunk('services/fetchUserService' ,async 
         return rejectWithValue(error.response.message);
     }
 });
+
 //fetch fetchCategories
 export const fetchCategories = createAsyncThunk('services/fetchCategories' ,async (_ , {rejectWithValue})=>{
     try{
@@ -27,6 +38,7 @@ export const fetchCategories = createAsyncThunk('services/fetchCategories' ,asyn
         return rejectWithValue(error.response.message);
     }
 });
+
 //fetch fetchsubCategories
 export const fetchSub_Categories = createAsyncThunk('services/fetchSub_Categories' ,async (_ , {rejectWithValue})=>{
     try{
@@ -36,6 +48,7 @@ export const fetchSub_Categories = createAsyncThunk('services/fetchSub_Categorie
         return rejectWithValue(error.response.message);
     }
 });
+
 //delete service
 export const deleteService = createAsyncThunk('services/deleteUserService' ,async(_ , {rejectWithValue})=>{
     try{
@@ -45,8 +58,20 @@ export const deleteService = createAsyncThunk('services/deleteUserService' ,asyn
         return rejectWithValue(error.response.message);
     }
 });
+
+//the service clicked from the user 
+export const fetchServiceById = createAsyncThunk('services/fetchService' ,async(id , {rejectWithValue})=>{
+    try{
+        const response = await fetchServiceData(id);
+        return response ;
+    }catch(error){
+        return rejectWithValue(error.response.message);
+    }
+});
+
 const initialState = {
     services: [],
+    service : [],
     servicesCategories: [], // This should be an empty array at the start
     sub_categories: [],
     loading: false,
@@ -72,14 +97,14 @@ const servicesSlice = createSlice({
                     state.error = action.payload;
                 })
                 // fetch services
-                .addCase(fetchService.pending, (state) => {
+                .addCase(fetchServices.pending, (state) => {
                     state.loading = true;
                 })
-                .addCase(fetchService.fulfilled , (state,action)=>{
+                .addCase(fetchServices.fulfilled , (state,action)=>{
                     state.loading = false;
                     state.services = action.payload;
                 })
-                .addCase(fetchService.rejected , (state , action)=>{
+                .addCase(fetchServices.rejected , (state , action)=>{
                     state.loading = false;
                     state.error = action.payload;
                 })
@@ -119,6 +144,19 @@ const servicesSlice = createSlice({
                     state.loading = false;
                     state.error = action.payload;
                 })
+                // fetch service clicked
+                .addCase(fetchServiceById.pending, (state) => {
+                    state.loading = true;
+                    state.error = null;
+                  })
+                  .addCase(fetchServiceById.fulfilled, (state, action) => {
+                    state.loading = false;
+                    state.service = action.payload;
+                  })
+                  .addCase(fetchServiceById.rejected, (state, action) => {
+                    state.loading = false;
+                    state.error = action.payload;
+                  });
     }
 });
 export default servicesSlice.reducer ;

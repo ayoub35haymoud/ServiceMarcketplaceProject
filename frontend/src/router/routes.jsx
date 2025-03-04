@@ -12,6 +12,7 @@ const MainLayout = React.lazy(() => import('../layouts/MainLayout'));
 const HomePage = React.lazy(() => import('../pages/HomePage'));
 const NotFound = React.lazy(() => import('../pages/NotFound'));
 const Search = React.lazy(() => import('../pages/Search'));
+const Booking = React.lazy(() => import('../pages/Booking')); 
 // Route configuration
 const routes = [
   {
@@ -51,6 +52,11 @@ const routes = [
         element: <EditProfile />,
         guard: true,
       },
+      {
+        path: '/booking/:id',
+        element: <Booking/>,
+        guard: true,
+      }, 
       {
         path: '*',
         element: <NotFound />,

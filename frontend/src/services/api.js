@@ -137,6 +137,15 @@ export const fetchUserSub_Categories= async()=>{
     return response.data;  
 }
 
+// fetch the service clicked 
+export const fetchServiceData= async(id)=>{
+    const token = localStorage.getItem('token');
+    const response = await API.get(`booking/${id}`,{
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;  
+}
+
 {/* the call request related to the services */}
 
 {/* start the call request related to the search */}
@@ -147,9 +156,17 @@ export const suggestions = async(query)=>{
     return response.data;
 }
 // fetch the result of search
-export const results =async({query, zipcode, page: currentPage })=>{
-    console.log({query, zipcode})
-    const response = await API.get(`service/search?page=${currentPage}` ,{params: { query, zipcode , minPrice : 12}})
+export const results =async({query, zipcode ,minPrice , maxPrice , page: currentPage })=>{
+    console.log(maxPrice)
+    const response = await API.get(`service/search?page=${currentPage}` ,{
+        params: { 
+            query, 
+            zipcode,
+            minPrice ,
+            maxPrice ,
+            // gender : filterData.gender,
+            
+        }})
     return response.data;
 }
 {/* the end the call request related to the serch */}
