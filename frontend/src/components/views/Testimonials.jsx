@@ -57,7 +57,7 @@ const TestimonialSection = () => {
   const prevIndex = currentIndex === 0 ? testimonials.length - 1 : currentIndex - 1;
 
   return (
-    <section className="h-screen relative bg-gradient-to-b from-indigo-50 to-blue-50 overflow-hidden">
+    <section className="h-screen relative  from-indigo-50 to-blue-50 overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
         <div className="absolute -top-16 -left-16 w-64 h-64 bg-blue-100 rounded-full opacity-60"></div>
         <div className="absolute bottom-24 -right-16 w-80 h-80 bg-indigo-100 rounded-full opacity-60"></div>
